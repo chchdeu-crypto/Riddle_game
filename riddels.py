@@ -28,7 +28,11 @@ class MultipleChoiceRiddle(Riddle):
         super().__init__(riddle_id, question, correct_answer, difficulty, category)
         self.__possible_answers=possible_answers
     def display(self):
-        print( self.question,self.__possible_answers)
+        print(self.question)
+        number = 1
+        for answer in self.get_possible_answers():
+            print(f"{number}. {answer}")
+            number += 1
     def check_answer(self, answer):
         return True if answer==self.correct_answer else False
     def get_possible_answers(self):
@@ -55,5 +59,3 @@ class OpenRiddle(Riddle):
         return "open"
 
     
-chim=MultipleChoiceRiddle(11,1,1,1,1,1,)
-print(chim.display())
