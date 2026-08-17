@@ -10,7 +10,7 @@ class Riddle:
     def display(self):
         raise  NotImplementedError
     def check_answer(self, answer):
-        return True if answer==self.__correct_answer else False
+        return answer.lower() == self.__correct_answer.lower()
     @abstractmethod
     def get_type(self):
         pass
@@ -22,6 +22,12 @@ class Riddle:
     @property
     def correct_answer(self):
         return self.__correct_answer
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def category(self):
+        return self.__category
     
 class MultipleChoiceRiddle(Riddle):
     def __init__(self, riddle_id, question, correct_answer, difficulty, category,possible_answers):
@@ -34,7 +40,15 @@ class MultipleChoiceRiddle(Riddle):
             print(f"{number}. {answer}")
             number += 1
     def check_answer(self, answer):
-        return True if answer==self.correct_answer else False
+        if answer in self.get_possible_answers():
+            return answer.lower()==self.correct_answer.lower()
+        try:
+            number=int(answer)
+            answer=self.get_possible_answers()[number-1]
+        except ValueError:
+            return False
+
+        return answer.lower()==self.correct_answer.lower()
     def get_possible_answers(self):
         return list(self.__possible_answers)
 
