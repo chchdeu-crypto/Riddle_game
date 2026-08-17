@@ -19,6 +19,9 @@ class Riddle:
     @property
     def question(self):
         return self.__question
+    @property
+    def correct_answer(self):
+        return self.__correct_answer
     
 class MultipleChoiceRiddle(Riddle):
     def __init__(self, riddle_id, question, correct_answer, difficulty, category,possible_answers):
@@ -26,5 +29,31 @@ class MultipleChoiceRiddle(Riddle):
         self.__possible_answers=possible_answers
     def display(self):
         print( self.question,self.__possible_answers)
+    def check_answer(self, answer):
+        return True if answer==self.correct_answer else False
+    def get_possible_answers(self):
+        return list(self.__possible_answers)
+
+class FourAnswerRiddle(MultipleChoiceRiddle):
+    def __init__(self, riddle_id, question, correct_answer, difficulty, category, possible_answers):
+        super().__init__(riddle_id, question, correct_answer, difficulty, category, possible_answers)
+    def get_type(self):
+        return "multiple_4"
+
+class TwoAnswerRiddle(MultipleChoiceRiddle):
+    def __init__(self, riddle_id, question, correct_answer, difficulty, category, possible_answers):
+        super().__init__(riddle_id, question, correct_answer, difficulty, category, possible_answers)
+    def get_type(self):
+            return "multiple_2"
+
+class OpenRiddle(Riddle):
+    def __init__(self, riddle_id, question, correct_answer, difficulty, category):
+        super().__init__(riddle_id, question, correct_answer, difficulty, category)
+    def display(self):
+        print(self.question)
+    def get_type(self):
+        return "open"
+
+    
 chim=MultipleChoiceRiddle(11,1,1,1,1,1,)
 print(chim.display())
