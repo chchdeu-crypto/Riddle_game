@@ -1,13 +1,16 @@
 import time
 from datetime import date
 from resulsts import QuestionResult, GameResult
+from players import Player
 
 class RiddleGame:
-    def __init__(self,player,riddles):
-        self.__player=player
+    def __init__(self,riddles):
+        self.__player=None
         self.__riddles=riddles
         self.__results=[]
     def start(self):
+        username = input("Enter your username: ")
+        self.__player = Player(username)
         print(f"---Riddle Game---\n\nWelcome {self.__player.get_username()}!")
         total_start = time.time()
         for riddle in self.__riddles:
@@ -35,3 +38,11 @@ class RiddleGame:
         print("\n---Game Summary---")
         print(f"Player: {self.__player.get_username()}")
         print(f"Total riddles: {result.get_total_riddles()}")
+        print(f"Total time: {result.get_total_time():.2f} seconds")
+        print("Average time by type:")
+        for riddle_type, average in result.average_time_by_type().items():
+            print(f"{riddle_type}: {average} seconds")
+
+        print("Average time by category:")
+        for category, average in result.average_time_by_category().items():
+            print(f"{category}: {average} seconds")

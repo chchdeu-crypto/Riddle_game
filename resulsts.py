@@ -28,7 +28,7 @@ class GameResult:
         for question in self.__question_results:
             if question.riddle_type in average:
                 average[question.riddle_type][0] += question.time_taken
-                average[question.riddle_type][1] += question.time_taken
+                average[question.riddle_type][1] += 1
             else:
                 average[question.riddle_type] = [question.time_taken, 1]
         for avg in average:
@@ -46,6 +46,10 @@ class GameResult:
         for avg in average:
             average[avg] = f"{average[avg][0] / average[avg][1]:.2f}"
         return average
+    def get_total_time(self):
+        return self.__total_time
+    def to_csv_row(self):
+        return [self.__username,self.__date,self.__total_time,self.get_total_riddles()]
     
 
 
