@@ -8,6 +8,7 @@ class RiddleRepository:
         with open(self.__file_path, "r") as file:
             data = json.load(file)
         riddles = []
+        
         for riddle in data:
             if riddle["type"] == "multiple_4":
                 riddles.append(FourAnswerRiddle(riddle["id"],riddle["question"],riddle["correct_answer"],riddle["difficulty"],riddle["category"],riddle["possible_answers"]))

@@ -1,6 +1,14 @@
 from abc import*
 class Riddle(ABC):
     def __init__(self,riddle_id: int,question: str,correct_answer: str,difficulty: str,category: str) -> None:
+        if not question.strip():
+            raise ValueError("Question cannot be empty")
+        if not correct_answer.strip():
+            raise ValueError("Correct answer cannot be empty")
+        if difficulty not in ["easy", "medium", "hard"]:
+            raise ValueError("Invalid difficulty")
+        if category not in ["math", "english", "geography", "science", "history"]:
+            raise ValueError("Invalid category")
         self.__id=riddle_id
         self.__question=question
         self.__correct_answer=correct_answer
@@ -32,6 +40,10 @@ class Riddle(ABC):
 class MultipleChoiceRiddle(Riddle):
     def __init__(self, riddle_id, question, correct_answer, difficulty, category,possible_answers):
         super().__init__(riddle_id, question, correct_answer, difficulty, category)
+        if len(possible_answers)==0:
+            raise ValueError("Possible answers cannot be empty")
+        if correct_answer.lower() not in [answer.lower() for answer in possible_answers]:
+            raise ValueError("Correct answer must be one of the possible answers")
         self.__possible_answers=possible_answers
     def display(self):
         print(self.question)
@@ -59,12 +71,16 @@ class MultipleChoiceRiddle(Riddle):
 class FourAnswerRiddle(MultipleChoiceRiddle):
     def __init__(self, riddle_id, question, correct_answer, difficulty, category, possible_answers):
         super().__init__(riddle_id, question, correct_answer, difficulty, category, possible_answers)
+        if len(possible_answers)!=4:
+            raise ValueError("Must have exactly 4 answers")
     def get_type(self):
         return "multiple_4"
 
 class TwoAnswerRiddle(MultipleChoiceRiddle):
     def __init__(self, riddle_id, question, correct_answer, difficulty, category, possible_answers):
         super().__init__(riddle_id, question, correct_answer, difficulty, category, possible_answers)
+        if len(possible_answers)!=2:
+            raise ValueError("Must have exactly 2 answers")
     def get_type(self):
             return "multiple_2"
 
